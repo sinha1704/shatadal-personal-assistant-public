@@ -1,0 +1,1 @@
+export { fetchAIResponse } from './api';
