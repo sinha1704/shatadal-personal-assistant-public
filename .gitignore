@@ -44,3 +44,6 @@ next-env.d.ts
 /data/images/
 
 .vercel
+
+# local automation profiles
+/automation-profile/

@@ -3,9 +3,9 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { fetchAIResponse } from './utils/api';
 
-type Message = { 
-  role: 'user' | 'ai'; 
-  content: string; 
+type Message = {
+  role: 'user' | 'ai';
+  content: string;
   timestamp: string;
 };
 
@@ -29,7 +29,7 @@ const getTimestamp = () =>
   new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
 const staggerClass = (i: number) => {
-  const delays = ['msg-0','msg-1','msg-2','msg-3','msg-4','msg-5'];
+  const delays = ['msg-0', 'msg-1', 'msg-2', 'msg-3', 'msg-4', 'msg-5'];
   return delays[Math.min(i, delays.length - 1)];
 };
 
@@ -49,7 +49,7 @@ export default function ChatPage() {
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [sendAnimating, setSendAnimating] = useState<boolean>(false);
-  
+
   // Sidebar states
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
@@ -66,7 +66,7 @@ export default function ChatPage() {
     const savedSessions = localStorage.getItem('aetheris_chat_sessions');
     let initialSessions: ChatSession[] = [];
     let initialActiveId = '';
-    
+
     if (savedSessions) {
       try {
         initialSessions = JSON.parse(savedSessions);
@@ -74,7 +74,7 @@ export default function ChatPage() {
         console.error("Failed to parse saved chat sessions:", e);
       }
     }
-    
+
     if (initialSessions.length === 0) {
       const defaultSessionId = Date.now().toString();
       initialSessions = [{
@@ -87,15 +87,15 @@ export default function ChatPage() {
     } else {
       initialActiveId = initialSessions[0].id;
     }
-    
+
     setSessions(initialSessions);
     setActiveSessionId(initialActiveId);
-    
+
     const activeSession = initialSessions.find(s => s.id === initialActiveId);
     if (activeSession) {
       setMessages(activeSession.messages);
     }
-    
+
     setHasLoadedHistory(true);
 
     // Default sidebar to collapsed on smaller desktop screens
@@ -132,7 +132,7 @@ export default function ChatPage() {
     fetch('/api/upload')
       .then(r => r.json())
       .then(d => setKbEntries(d.entries || []))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Auto-scroll to bottom on new messages
@@ -218,7 +218,7 @@ export default function ChatPage() {
       messages: [{ role: 'ai', content: "Hello! I am Shatadal's Personal Assistant. How can I assist you today?", timestamp: getTimestamp() }],
       createdAt: new Date().toISOString()
     };
-    
+
     setSessions(prev => [newSession, ...prev]);
     setActiveSessionId(newSessionId);
     setMessages(newSession.messages);
@@ -233,9 +233,9 @@ export default function ChatPage() {
 
   const handleDeleteSession = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    
+
     const filtered = sessions.filter(s => s.id !== id);
-    
+
     if (filtered.length === 0) {
       const defaultSessionId = Date.now().toString();
       const defaultSession: ChatSession = {
@@ -346,7 +346,7 @@ export default function ChatPage() {
           </li>
         );
       }
-      
+
       // Check if it's a numbered list
       const numMatch = line.trim().match(/^(\d+)\.\s(.*)/);
       if (numMatch) {
@@ -516,7 +516,7 @@ export default function ChatPage() {
               <span className="text-[8px] bg-purple-500/10 border border-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded-md font-medium">Node.js</span>
               <span className="text-[8px] bg-amber-500/10 border border-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-md font-medium">TypeScript</span>
             </div>
-            
+
             <a
               href="/resume.pdf"
               download="Shatadal_Sundar_Sinha_Resume.pdf"
@@ -546,11 +546,10 @@ export default function ChatPage() {
                     <div
                       key={s.id}
                       onClick={() => handleSelectSession(s.id)}
-                      className={`group flex items-center justify-between rounded-xl px-3 py-2 cursor-pointer border transition-all ${
-                        isActive
+                      className={`group flex items-center justify-between rounded-xl px-3 py-2 cursor-pointer border transition-all ${isActive
                           ? 'bg-indigo-600/10 border-indigo-550/20 text-indigo-300 shadow-sm'
                           : 'bg-slate-950/20 border-slate-900 hover:border-slate-800 text-slate-400 hover:text-slate-200'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center space-x-2 overflow-hidden pr-2">
                         <span className="text-xs select-none">💬</span>
@@ -584,18 +583,17 @@ export default function ChatPage() {
               onDragLeave={() => setIsDragging(false)}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className={`border border-dashed rounded-xl p-4 text-center cursor-pointer transition-all ${
-                isDragging
+              className={`border border-dashed rounded-xl p-4 text-center cursor-pointer transition-all ${isDragging
                   ? 'border-indigo-400 bg-indigo-500/10 scale-[1.01]'
                   : 'border-slate-800 bg-slate-950/20 hover:border-indigo-500/30 hover:bg-slate-950/50'
-              }`}
+                }`}
             >
               <input
                 ref={fileInputRef}
                 type="file"
                 accept=".txt,.md,.json,.csv,.pdf,.png,.jpg,.jpeg,.webp"
                 className="hidden"
-                onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadFile(f); e.target.value=''; }}
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadFile(f); e.target.value = ''; }}
               />
               {uploading ? (
                 <div className="flex flex-col items-center space-y-1.5">
@@ -681,7 +679,7 @@ export default function ChatPage() {
 
   return (
     <main className="fixed inset-0 flex bg-slate-950 text-slate-100 font-sans overflow-hidden selection:bg-indigo-500 selection:text-white">
-      
+
       {/* ── Ambient gradient background glows ── */}
       <div className="absolute top-[-10%] left-[-5%] w-[45%] h-[45%] bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none animate-float-slow" />
       <div className="absolute bottom-[-10%] right-[-5%] w-[45%] h-[45%] bg-blue-600/5 rounded-full blur-[140px] pointer-events-none animate-float-delayed" />
@@ -698,9 +696,8 @@ export default function ChatPage() {
           LEFT SIDEBAR (DESKTOP)
       ══════════════════════════════════════ */}
       <aside
-        className={`hidden md:flex flex-col h-full bg-slate-900 border-r border-slate-800/80 sidebar-transition flex-shrink-0 z-20 ${
-          isSidebarOpen ? 'w-80' : 'w-20'
-        }`}
+        className={`hidden md:flex flex-col h-full bg-slate-900 border-r border-slate-800/80 sidebar-transition flex-shrink-0 z-20 ${isSidebarOpen ? 'w-80' : 'w-20'
+          }`}
       >
         {renderSidebarContent(!isSidebarOpen)}
       </aside>
@@ -715,9 +712,8 @@ export default function ChatPage() {
         />
       )}
       <aside
-        className={`fixed top-0 bottom-0 left-0 w-80 bg-slate-900 border-r border-slate-850 z-50 md:hidden sidebar-transition flex flex-col shadow-2xl ${
-          isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed top-0 bottom-0 left-0 w-80 bg-slate-900 border-r border-slate-850 z-50 md:hidden sidebar-transition flex flex-col shadow-2xl ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         {/* Mobile close button */}
         <div className="absolute top-4 right-4 z-50">
@@ -737,7 +733,7 @@ export default function ChatPage() {
           MAIN WORKSPACE AREA
       ══════════════════════════════════════ */}
       <section className="flex-1 h-full flex flex-col relative overflow-hidden min-w-0">
-        
+
         {/* Workspace Header */}
         <header className="h-16 flex-shrink-0 flex items-center justify-between px-4 md:px-6 border-b border-slate-800/60 backdrop-blur-xl bg-slate-950/45 z-10 gap-2">
           <div className="flex items-center space-x-2.5 overflow-hidden">
@@ -803,15 +799,15 @@ export default function ChatPage() {
         {/* Scrollable chat log viewport */}
         <div ref={chatContainerRef} className="flex-1 overflow-y-auto w-full relative scroll-smooth bg-slate-950">
           <div className="max-w-3xl mx-auto px-4 md:px-6 pt-6 pb-20 w-full flex flex-col justify-start">
-            
+
             {messages.length <= 1 ? (
               /* ── WELCOME HERO DASHBOARD ── */
               <div className="flex flex-col items-center text-center py-8 md:py-16 px-2 max-w-2xl mx-auto animate-fadeInUp select-none">
-                
+
                 {/* Brand emblem */}
                 <div className="relative mb-6 group">
                   <div className="absolute inset-0 rounded-[24px] bg-gradient-to-tr from-indigo-500 via-purple-500 to-blue-600 blur-2xl opacity-20 group-hover:opacity-30 transition-all duration-700" />
-                  
+
                   <div
                     className="relative w-24 h-24 rounded-[24px] overflow-hidden flex items-center justify-center"
                     style={{
@@ -873,11 +869,10 @@ export default function ChatPage() {
                 {messages.map((msg, index) => (
                   <div
                     key={index}
-                    className={`flex items-start gap-3 md:gap-4 ${
-                      msg.role === 'user'
+                    className={`flex items-start gap-3 md:gap-4 ${msg.role === 'user'
                         ? `justify-end animate-slideInRight-msg ${staggerClass(index)}`
                         : `justify-start animate-slideInLeft ${staggerClass(index)}`
-                    }`}
+                      }`}
                     style={{ opacity: 0, animationFillMode: 'forwards' }}
                   >
                     {/* AI Avatar */}
@@ -889,12 +884,11 @@ export default function ChatPage() {
 
                     {/* Chat Bubble card */}
                     <div className="flex flex-col group/msg max-w-[84%] sm:max-w-[76%] min-w-0">
-                      <div className={`px-4 py-3 rounded-2xl shadow-lg relative break-words overflow-hidden ${
-                        msg.role === 'user'
+                      <div className={`px-4 py-3 rounded-2xl shadow-lg relative break-words overflow-hidden ${msg.role === 'user'
                           ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-tr-sm shadow-indigo-950/20 border border-indigo-400/15'
                           : 'glass-card text-slate-200 rounded-tl-sm'
-                      }`}>
-                        
+                        }`}>
+
                         {/* Copy action on hover for AI responses */}
                         {msg.role === 'ai' && (
                           <div className="absolute right-2 top-2 opacity-0 group-hover/msg:opacity-100 transition-opacity">
@@ -922,7 +916,7 @@ export default function ChatPage() {
                           ) : (
                             <div className="prose prose-invert max-w-none break-words">
                               {formatMessageContent(msg.content)}
-                              
+
                               {/* RAG Context badge indicator for premium feel */}
                               {kbEntries.length > 0 && (
                                 <div className="mt-3.5 pt-2 border-t border-indigo-500/10 flex items-center space-x-1.5 text-[9px] text-slate-500 select-none animate-fadeIn">
@@ -974,7 +968,7 @@ export default function ChatPage() {
         ══════════════════════════════════════ */}
         <footer className="w-full border-t border-slate-800/60 bg-slate-950/80 backdrop-blur-xl py-4 flex-shrink-0 relative z-10">
           <div className="max-w-3xl mx-auto px-4 md:px-6 relative">
-            
+
             {/* Upload loading/status feedback bubbles */}
             {uploading && (
               <div className="absolute top-[-44px] left-6 px-3.5 py-1.5 bg-slate-900 border border-indigo-500/25 rounded-xl text-[10px] flex items-center space-x-2 animate-pulse shadow-lg z-20">
@@ -1031,13 +1025,11 @@ export default function ChatPage() {
                 onClick={() => handleSend(input)}
                 id="btn-send-message"
                 disabled={!input.trim() || isLoading}
-                className={`p-2.5 rounded-xl transition-all flex items-center justify-center flex-shrink-0 cursor-pointer ${
-                  sendAnimating ? 'animate-send-pop' : ''
-                } ${
-                  input.trim() && !isLoading
+                className={`p-2.5 rounded-xl transition-all flex items-center justify-center flex-shrink-0 cursor-pointer ${sendAnimating ? 'animate-send-pop' : ''
+                  } ${input.trim() && !isLoading
                     ? 'bg-gradient-to-br from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white shadow-lg shadow-indigo-600/15 hover:scale-105 active:scale-95'
                     : 'bg-slate-850 text-slate-700 border border-slate-800/60 cursor-not-allowed'
-                }`}
+                  }`}
               >
                 <svg className="w-4 h-4 transform rotate-90" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
@@ -1059,7 +1051,7 @@ export default function ChatPage() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/85 backdrop-blur-md animate-fadeIn">
           <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl space-y-4 animate-fadeInUp relative">
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-rose-500/20 to-transparent" />
-            
+
             <div className="flex items-center space-x-3 text-rose-400">
               <div className="w-8 h-8 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center flex-shrink-0">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1068,11 +1060,11 @@ export default function ChatPage() {
               </div>
               <h3 className="text-sm font-semibold text-white">Clear Chat History</h3>
             </div>
-            
+
             <p className="text-xs text-slate-400 leading-relaxed">
               Are you sure you want to clear your entire chat history? This action cannot be undone and will delete local browser memory.
             </p>
-            
+
             <div className="flex items-center justify-end space-x-2.5 pt-1">
               <button onClick={handleCancelClear} className="px-3.5 py-1.5 rounded-xl text-xs bg-slate-850 hover:bg-slate-800 text-slate-300 transition-all cursor-pointer font-semibold">
                 Cancel

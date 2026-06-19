@@ -116,7 +116,7 @@ function getLocalFallbackResponse(message: string): string {
   const configLocation = isVercelEnv ? "Vercel Environment Variables Dashboard" : ".env file";
   
   if (msg.includes("shatadal")) {
-    return "Shatadal Sundar Sinha is a professional Full-Stack Developer with 4+ years of experience building high-performance web applications across SaaS, EdTech, and PropTech domains. He specializes in React.js, Next.js, TypeScript, Angular, and Node.js. He is currently working as a Lead Front-End Developer, building CRM portals, AI-Powered resume builders, and payment integrations.";
+    return "Shatadal Sundar Sinha is a professional Full-Stack Developer with approximately 5 years of experience building high-performance web applications across SaaS, EdTech, and PropTech domains. He specializes in React.js, Next.js, TypeScript, Angular, and Node.js. He is currently working as a Lead Front-End Developer, building CRM portals, AI-Powered resume builders, and payment integrations.";
   }
   if (msg.includes("expertise") || msg.includes("what do i do") || msg.includes("what i do") || msg.includes("background")) {
     return "You are a Full-Stack Developer specializing in: \n- Front-End: React.js, Next.js, Angular, TypeScript, Material UI, Ant Design, Bootstrap, Tailwind CSS.\n- Back-End: Node.js, Express.js, EJS, REST API Design & Integration.\n- Database: MongoDB & Mongoose.\n- Payment Gateways: Razorpay, Cashfree, Instamojo.\n- AI Workflow: Experience leveraging AI tools and integrating AI model backends.";
